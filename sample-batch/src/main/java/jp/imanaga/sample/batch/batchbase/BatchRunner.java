@@ -27,9 +27,6 @@ public class BatchRunner {
 			BatchService service = this.context.getBean(batchId, BatchService.class);
 			service.exec();
 
-			// test
-			context.getBean("testService", TestService.class).update();
-
 		} catch (BatchErrorException e) {
 			// Use a message lapper
 			// You can also use a code generator for creating message lapper object

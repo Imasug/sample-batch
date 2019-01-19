@@ -15,8 +15,14 @@ public class SampleService implements BatchService {
 //	@Autowired
 //	private ContentSource contentSource;
 //
+	@Autowired
+	private TestService testService;
+
 	@Override
 	public void exec() throws Exception {
+
+		this.testService.update(false);
+
 //
 //		// test
 //		TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();

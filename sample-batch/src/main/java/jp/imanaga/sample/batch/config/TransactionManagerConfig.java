@@ -5,6 +5,8 @@ import java.util.Properties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
@@ -14,6 +16,7 @@ import bitronix.tm.resource.jdbc.PoolingDataSource;
 import jp.imanaga.sample.batch.service.TestService;
 
 @Configuration
+@EnableTransactionManagement
 public class TransactionManagerConfig {
 
 	// test
@@ -32,7 +35,7 @@ public class TransactionManagerConfig {
 	}
 
 	@Bean
-	public JtaTransactionManager JtaTransactionManager() {
+	public PlatformTransactionManager JtaTransactionManager() {
 		JtaTransactionManager transactionManager = new JtaTransactionManager();
 		transactionManager.setTransactionManager(BitronixTransactionManager());
 		transactionManager.setUserTransaction(BitronixTransactionManager());
@@ -62,27 +65,27 @@ public class TransactionManagerConfig {
 		return poolingDataSource;
 	}
 
-	@Bean
-	public Properties transactionAttributes() {
-		Properties transactionAttributes = new Properties();
-		transactionAttributes.put("*", "PROPAGATION_REQUIRED, -Exception");
-		return transactionAttributes;
-	}
-
-	@Bean
-	public TestService target() {
-		TestService testService = new TestService();
-		testService.setDataSource1(xaDataSource1());
-		return testService;
-	}
-
-	@Bean
-	public TransactionProxyFactoryBean testService() {
-		TransactionProxyFactoryBean transactionProxyFactoryBean = new TransactionProxyFactoryBean();
-		transactionProxyFactoryBean.setTransactionManager(JtaTransactionManager());
-		transactionProxyFactoryBean.setTransactionAttributes(transactionAttributes());
-		transactionProxyFactoryBean.setTarget(target());
-		return transactionProxyFactoryBean;
-	}
+//	@Bean
+//	public Properties transactionAttributes() {
+//		Properties transactionAttributes = new Properties();
+//		transactionAttributes.put("*", "PROPAGATION_REQUIRED, -Exception");
+//		return transactionAttributes;
+//	}
+//
+//	@Bean
+//	public TestService target() {
+//		TestService testService = new TestService();
+//		testService.setDataSource1(xaDataSource1());
+//		return testService;
+//	}
+//
+//	@Bean
+//	public TransactionProxyFactoryBean testService() {
+//		TransactionProxyFactoryBean transactionProxyFactoryBean = new TransactionProxyFactoryBean();
+//		transactionProxyFactoryBean.setTransactionManager(JtaTransactionManager());
+//		transactionProxyFactoryBean.setTransactionAttributes(transactionAttributes());
+//		transactionProxyFactoryBean.setTarget(target());
+//		return transactionProxyFactoryBean;
+//	}
 
 }
