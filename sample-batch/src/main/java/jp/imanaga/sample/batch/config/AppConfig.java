@@ -3,6 +3,7 @@ package jp.imanaga.sample.batch.config;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.sql.DataSource;
 import javax.sql.XADataSource;
 
 import org.apache.commons.dbcp2.managed.BasicManagedDataSource;
@@ -39,13 +40,13 @@ public class AppConfig {
 
 	// test
 	// TODO pooling
-	@Bean
-	public PGXADataSource pgXaDataSource(@Value("${postgresql.url}") String url,
-			@Value("${postgresql.user}") String user, @Value("${postgresql.password}") String password) {
-		PGXADataSource pgXaDataSource = new PGXADataSource();
-		pgXaDataSource.setUrl(url);
-		pgXaDataSource.setUser(user);
-		pgXaDataSource.setPassword(password);
-		return pgXaDataSource;
-	}
+//	@Bean
+//	public PGXADataSource pgXaDataSource(@Value("${postgresql.url}") String url,
+//			@Value("${postgresql.user}") String user, @Value("${postgresql.password}") String password) {
+//		PGXADataSource pgXaDataSource = new PGXADataSource();
+//		pgXaDataSource.setUrl(url);
+//		pgXaDataSource.setUser(user);
+//		pgXaDataSource.setPassword(password);
+//		return pgXaDataSource;
+//	}
 }

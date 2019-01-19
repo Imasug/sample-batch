@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import jp.imanaga.sample.batch.common.exceptions.BatchErrorException;
 import jp.imanaga.sample.batch.common.helpers.MessageHelper;
+import jp.imanaga.sample.batch.service.TestService;
 
 @Component
 public class BatchRunner {
@@ -25,6 +26,9 @@ public class BatchRunner {
 
 			BatchService service = this.context.getBean(batchId, BatchService.class);
 			service.exec();
+
+			// test
+			context.getBean("testService", TestService.class).update();
 
 		} catch (BatchErrorException e) {
 			// Use a message lapper

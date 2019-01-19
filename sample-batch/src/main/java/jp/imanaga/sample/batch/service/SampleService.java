@@ -1,58 +1,48 @@
 package jp.imanaga.sample.batch.service;
 
-import java.sql.Connection;
-
-import javax.sql.XAConnection;
-import javax.transaction.TransactionManager;
-import javax.transaction.xa.XAResource;
-
-import org.apache.commons.dbcp2.managed.BasicManagedDataSource;
-import org.postgresql.xa.PGXADataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
-
-import com.marklogic.xcc.ContentSource;
-import com.marklogic.xcc.Session;
 
 import jp.imanaga.sample.batch.batchbase.BatchService;
 
 @Component("sample")
 public class SampleService implements BatchService {
 
-	@Autowired
-	private PGXADataSource pgXaDataSource;
-
-	@Autowired
-	private ContentSource contentSource;
-
+//	@Autowired
+//	private PGXADataSource pgXaDataSource;
+//
+//	@Autowired
+//	private ContentSource contentSource;
+//
 	@Override
 	public void exec() throws Exception {
-
-		// test
-		TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
-
-		XAConnection xaConnection = pgXaDataSource.getXAConnection();
-		try (Session session = this.contentSource.newSession();
-				Connection pgConnection = xaConnection.getConnection();) {
-
-			tm.begin();
-
-			tm.getTransaction().enlistResource(session.getXAResource());
-			tm.getTransaction().enlistResource((XAResource) xaConnection);
-
-			session.submitRequest(session.newAdhocQuery("xdmp:document-insert('test.txt', <test/>)"));
-			pgConnection.createStatement().executeUpdate("insert into test values(0, 'test');");
-
-			tm.commit();
-
-		} finally {
-			if (tm.getTransaction() != null) {
-				tm.rollback();
-			}
-		}
-
-		// Use lapper object has the message infomation
-		// throw new BatchErrorException(new ErrorInfo("test1"));
+//
+//		// test
+//		TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+//
+//		XAConnection xaConnection = pgXaDataSource.getXAConnection();
+//		try (Session session = this.contentSource.newSession();
+//				Connection pgConnection = xaConnection.getConnection();) {
+//
+//			tm.begin();
+//
+//			tm.getTransaction().enlistResource(session.getXAResource());
+//			tm.getTransaction().enlistResource((XAResource) xaConnection);
+//
+//			session.submitRequest(session.newAdhocQuery("xdmp:document-insert('test.txt', <test/>)"));
+//			pgConnection.createStatement().executeUpdate("insert into test values(0, 'test');");
+//
+//			tm.commit();
+//
+//		} finally {
+//			if (tm.getTransaction() != null) {
+//				tm.rollback();
+//			}
+//		}
+//
+//		// Use lapper object has the message infomation
+//		// throw new BatchErrorException(new ErrorInfo("test1"));
 	}
 
 }
